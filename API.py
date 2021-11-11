@@ -22,3 +22,15 @@ def smsip_supported():
             ims_dump = dev.shell('dumpsys activity provider com.sec.internal.ims.imsservice.SettingsProvider|grep -i -E "smsip *= (true|false)"')
             volte_support_found = bool(re.search("(?i)[\s\t]*smsip[\s\t]*=[\s\t]*true",ims_dump))
     return volte_support_found
+
+def video_call_supported_carrier():
+    '''
+    This API verifies video call support.
+    :lastModified: 20/03/19
+    :return: True if CID supports video call
+    :parameter: none
+    ''' 
+    CID = dev.shell('getprop ro.csc.sales_code')
+    CID = str(CID)
+    CID = CID.replace("\n","")
+    return re.match("(AAA|BBB|CCC|DDD|EEE)", CID)
