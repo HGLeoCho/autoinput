@@ -4,7 +4,7 @@ import copy, os
 def smsip_supported():
     '''
     This API verifies smsip IMS registration.
-    :lastModified: 20/03/19
+    :lastModified: 
     :return: True if smsip IMS registered
     :parameter: none
     ''' 
@@ -26,7 +26,7 @@ def smsip_supported():
 def video_call_supported_carrier():
     '''
     This API verifies video call support.
-    :lastModified: 20/03/19
+    :lastModified: 
     :return: True if CID supports video call
     :parameter: none
     ''' 
@@ -34,3 +34,28 @@ def video_call_supported_carrier():
     CID = str(CID)
     CID = CID.replace("\n","")
     return re.match("(AAA|BBB|CCC|DDD|EEE)", CID)
+
+#Google Map -----------------------------------------------------------
+def grant_permssion_for_map():
+    dev.shell("pm grant com.google.android.apps.maps android.permission.ACCESS_FINE_LOCATION")
+
+
+def start_map_navigation(destination=None,satellite=False):
+    '''
+    This API that start navigation in PIP mode.
+    :lastModified: 
+    :return: True if Map PIP is started
+    :parameter: destination of the navigation and satellite view on/off (true/false)
+    ''' 
+    Map_PIP = [{"resourceId":".*maps:id/custom_slider_container"}, {"resourceId":".*maps:id/mainmap_container"}]
+    launch_maps_clear_popups()
+    maps_ready = quick_start_navigation( destination, satellite )
+    if node_exists(text = ".*(?i)Upgrade Google Maps", timeout = 3000):
+        click_node(talkback = "(?i)Ignore")
+    press("KEYCODE_HOME")
+    pause(3000)
+    if get_any_node(Map_PIP, timeout = 10000):
+        print "Map PIP Started"
+        return True
+    else:
+        FailReason("Map Navgiation PIP not started")
