@@ -59,3 +59,22 @@ def start_map_navigation(destination=None,satellite=False):
         return True
     else:
         FailReason("Map Navgiation PIP not started")
+
+def clean_up_map_navigation():
+    '''
+    This API that stops navigation in PIP mode.
+    :lastModified: 
+    :return: True if Map PIP is not found
+    :parameter: none
+    ''' 
+    Map_PIP = [{"resourceId":".*maps:id/custom_slider_container"}, {"resourceId":".*maps:id/mainmap_container"}]
+    launch_app("Maps")
+    disable_all_handlers()
+    #print "Here!!!!!"
+    back_out_to_home_screen()
+    enable_all_handlers()
+
+    if get_any_node(Map_PIP, timeout = 10000):
+        return False
+    else:
+        return True
