@@ -59,7 +59,10 @@ def filter_IMS(*args):
         tolerence_count = 0
       if tolderence_count == 2:
         tolerence_count = 0
-              
+
+        
+def filter_QXDM(*args):
+  pass
             
      
     
